@@ -1,6 +1,8 @@
-import { ArrowLeft, Camera } from "phosphor-react";
+import { ArrowLeft } from "phosphor-react";
+import { FormEvent, useState } from "react";
 import { FeedbackType, feedbackTypes } from "..";
 import { CloseButton } from "../../CloseButton";
+import { ScreenshotButton } from "../ScreenshotButton";
 
 interface FeedbackContentStepProps {
     feedbackType: FeedbackType,
@@ -9,8 +11,18 @@ interface FeedbackContentStepProps {
 
 export function FeedbackContentStep({ feedbackType, onFeedbackResetRequested }: FeedbackContentStepProps) {
 
-    { console.log(feedbackType) }
-    const feedbackTypeInfo = feedbackTypes[feedbackType]
+    const [screenshot, setScreenshot] = useState<string | null>(null);
+    const [comment, setComment] = useState('');
+
+    const feedbackTypeInfo = feedbackTypes[feedbackType];
+
+    function handleSubmitFeedback(event: FormEvent) {7
+        event.preventDefault();
+        console.log({
+            comment,
+            screenshot
+        });
+    }
 
     return (
         <>
@@ -25,25 +37,22 @@ export function FeedbackContentStep({ feedbackType, onFeedbackResetRequested }: 
                 <CloseButton />
             </header>
 
-            <form className="my-4 w-full">
+            <form className="my-4 w-full" onSubmit={handleSubmitFeedback}>
                 <textarea className="min-w-[304px] w-full min-h-[112px] text-sm placeholder-zinc-400
                 text-zinc-100 border-zinc-600 bg-transparent rounded-md focus:border-brand-500
                 focus:ring-brand-500 focus-ring-1 resize-none focus:outline-nonescrollbar-thumb-zinc-700
                 scrollbar-track-transparent scrollbar-thin"
-                    placeholder="Conte-me com detalhes o que está acontecendo" />
+                    placeholder="Conte-me com detalhes o que está acontecendo"
+                    onChange={event => setComment(event.target.value)} />
 
                 <footer className="flex gap-2 mt-2">
 
-                    <button type="button" className="p-2 bg-zinc-800 rounded-md border-transparent
-                    hover:bg-zinc-700 transition-colors focus:ring-2 focus:ring-offset-2 
-                    focus:ring-offset-zinc-900 focus:ring-brand-500">
-                        <Camera className="w-6 h-6"/>
-                    </button>
+                    <ScreenshotButton onScreenshotTook={setScreenshot} screenshot={screenshot}/>
 
                     <button type="submit" className="p-2 bg-brand-500 rounded-md border-transparent 
                     flex-1 flex justify-center items-center text-sm hover:bg-brand-300 outline-none
                     focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-brand-500
-                    transition-colors">
+                    transition-colors disabled:opacity-50 disabled:hover:bg-brand-500" disabled={comment.length===0 ? true : false}>
                         Enviar feedback
                     </button>
                 </footer>
