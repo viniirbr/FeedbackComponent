@@ -8,6 +8,6 @@ const PORT = 3001;
 
 app.use(cors(), express.json(), routes);
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || PORT, () => {
     console.log(`Servidor rodando em https://localhost:${PORT}`)
 })
