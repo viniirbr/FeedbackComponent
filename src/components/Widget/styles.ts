@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     bottom: getBottomSpace() + 16
   },
   modal: {
-    backgroundColor: '#fff',
+    backgroundColor: theme.colors.surface_primary,
     paddingBottom: getBottomSpace() + 16
   },
   indicator: {

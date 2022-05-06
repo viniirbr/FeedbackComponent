@@ -21,7 +21,7 @@ export function Form({ feedbackType, onFeedbackCancelled, onFeedbackSent }: Prop
     const [screenshot, setScreeshot] = useState<string | null>(null);
     const [isSendingFeedback, setIsSendingFeedback] = useState<boolean>(false);
     const [comment, setComment] = useState<string>("")
-    
+
     const feedbackTypeInfo = feedbackTypes[feedbackType];
 
     function handleScreenshot() {
@@ -29,7 +29,7 @@ export function Form({ feedbackType, onFeedbackCancelled, onFeedbackSent }: Prop
             format: 'jpg',
             quality: 0.8,
         })
-        .then(uri => setScreeshot(uri))
+            .then(uri => setScreeshot(uri))
     }
 
     function handleScreenshotRemove() {
@@ -42,7 +42,7 @@ export function Form({ feedbackType, onFeedbackCancelled, onFeedbackSent }: Prop
         }
 
         setIsSendingFeedback(true);
-        const screenshotBase64 = screenshot && await FileSystem.readAsStringAsync(screenshot, {encoding: 'base64'})
+        const screenshotBase64 = screenshot && await FileSystem.readAsStringAsync(screenshot, { encoding: 'base64' })
 
         try {
             await api.post('/feedbacks', {
@@ -52,8 +52,8 @@ export function Form({ feedbackType, onFeedbackCancelled, onFeedbackSent }: Prop
             })
 
             onFeedbackSent();
-            
-        } catch(error) {
+
+        } catch (error) {
             console.log(error);
             setIsSendingFeedback(false);
         }
@@ -66,32 +66,32 @@ export function Form({ feedbackType, onFeedbackCancelled, onFeedbackSent }: Prop
                     <ArrowLeft
                         size={24}
                         weight='bold'
-                        color={theme.colors.surface_secondary}
-                         />
+                        color={theme.colors.text_secondary}
+                    />
                 </TouchableOpacity>
 
                 <View style={styles.titleContainer}>
-                    <Image source={feedbackTypeInfo.image} style={styles.image}/>
+                    <Image source={feedbackTypeInfo.image} style={styles.image} />
                     <Text style={styles.titleText}>{feedbackTypeInfo.title}</Text>
                 </View>
             </View>
-            <TextInput 
-            multiline 
-            style={styles.input}
-            placeholder="Algo não está funcionando bem? Conte com detalhes o que está acontecendo." 
-            placeholderTextColor={theme.colors.text_secondary}
-            autoCorrect={false}
-            onChangeText={setComment}/>
+            <TextInput
+                multiline
+                style={styles.input}
+                placeholder="Algo não está funcionando bem? Conte com detalhes o que está acontecendo."
+                placeholderTextColor={theme.colors.text_secondary}
+                autoCorrect={false}
+                onChangeText={setComment} />
 
             <View style={styles.footer}>
-                <ScreenshotButton 
-                onTakeShot={handleScreenshot}
-                onRemoveShot={handleScreenshotRemove}
-                screenshot={screenshot}/>
+                <ScreenshotButton
+                    onTakeShot={handleScreenshot}
+                    onRemoveShot={handleScreenshotRemove}
+                    screenshot={screenshot} />
+                <Button
+                    onPress={handleSendFeedback}
+                    isLoading={isSendingFeedback} />
             </View>
-            <Button 
-            onPress={handleSendFeedback}
-            isLoading={isSendingFeedback}/>
         </View>
     );
 }

@@ -8,10 +8,10 @@ interface Props extends TouchableOpacityProps {
     isLoading: boolean;
 }
 
-export function Button({ isLoading }: Props) {
+export function Button({ isLoading, ...rest }: Props) {
   return (
     <TouchableOpacity 
-    style={styles.container}
+    style={styles.container}{...rest}
     >
         {
             isLoading 
