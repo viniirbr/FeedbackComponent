@@ -1,4 +1,3 @@
-import { CloseButton } from "../CloseButton";
 import bugImageUrl from '../../images/bug.svg'
 import ideaImageUrl from '../../images/idea.svg'
 import thoughtImageUrl from '../../images/thought.svg'
